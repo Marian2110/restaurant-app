@@ -1,4 +1,4 @@
-package ro.fasttrackit.restaurantserver.utils;
+package ro.fasttrackit.restaurant.model;
 
 import lombok.Builder;
 

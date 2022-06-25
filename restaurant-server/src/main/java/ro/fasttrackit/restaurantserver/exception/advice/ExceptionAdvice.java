@@ -1,11 +1,15 @@
 package ro.fasttrackit.restaurantserver.exception.advice;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ro.fasttrackit.restaurantserver.exception.custom.InvalidPersonException;
 import ro.fasttrackit.restaurantserver.exception.custom.ResourceNotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -31,7 +35,6 @@ public class ExceptionAdvice {
                 .build();
     }
 
-
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(BAD_REQUEST)
     ExceptionResponse handleIllegalArgumentException(IllegalArgumentException ex) {
@@ -48,6 +51,24 @@ public class ExceptionAdvice {
         return ExceptionResponse.builder()
                 .internalCode("GEN01")
                 .message("Internal server error")
+                .build();
+    }
+
+    @ExceptionHandler(BindException.class)
+    @ResponseStatus(BAD_REQUEST)
+    ExceptionResponse handleBindException(BindException ex) {
+        List<FieldError> fieldErrors = new ArrayList<>();
+        ex.getFieldErrors().forEach(fieldError ->
+                fieldErrors.add(FieldError
+                        .builder()
+                        .field(fieldError.getField())
+                        .errorMessage(fieldError.getDefaultMessage())
+                        .build())
+        );
+        return ExceptionResponse.builder()
+                .internalCode("BDE01")
+                .message("Bad request for the following reasons:")
+                .fieldErrors(fieldErrors)
                 .build();
     }
 }

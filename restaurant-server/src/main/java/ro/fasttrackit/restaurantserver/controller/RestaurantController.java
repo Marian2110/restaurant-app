@@ -9,8 +9,8 @@ import ro.fasttrackit.restaurant.model.Restaurant;
 import ro.fasttrackit.restaurantserver.model.RestaurantEntity;
 import ro.fasttrackit.restaurantserver.model.mapper.RestaurantMapper;
 import ro.fasttrackit.restaurantserver.service.RestaurantService;
-import ro.fasttrackit.restaurantserver.utils.CollectionResponse;
-import ro.fasttrackit.restaurantserver.utils.PageInfo;
+import ro.fasttrackit.restaurant.model.CollectionResponse;
+import ro.fasttrackit.restaurant.model.PageInfo;
 import ro.fasttrackit.restaurantserver.utils.RestaurantFilter;
 
 import javax.validation.Valid;
